@@ -5,8 +5,8 @@ window.addEventListener("load", function(){
     
     sectionTri.addEventListener("click", function(e){
         let btnCible = e.target;
-        console.log(e.target )
-        console.log(e.currentTarget )
+        console.log(e.target );
+        console.log(e.currentTarget );
         /*if(btnCible.classList.contains("item")){
             btnCible = btnCible.querySelector(".btn");
         }
@@ -24,4 +24,4 @@ window.addEventListener("load", function(){
             btnCible.classList.replace("fleche-bas", "fleche-haut");
         }
     });
-})
+});

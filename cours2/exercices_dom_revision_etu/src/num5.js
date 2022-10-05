@@ -105,7 +105,7 @@ window.addEventListener("DOMContentLoaded", ()=>{
             console.log(id)
             
             // Cherche la correspondance (avec l'id) dans le tableau de données
-            let indexItem = listeItem.findIndex(function(element){
+            let indexItem = aListeItem.findIndex(function(element){
                 return (element.id == id);
             });
             //let indexItem = listeItem.findIndex((element)=>element.id == id);

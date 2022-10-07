@@ -119,6 +119,7 @@ window.addEventListener("DOMContentLoaded", ()=>{
             }else{
                 parent.classList.remove("barre")
             }
+            //AfficherItem();
         }
         console.log(aListeItem)
     });

@@ -7,8 +7,14 @@ export default class Information{
      */
     data = [
         { 
-            etiquette:"Nom, prénom :",
+            etiquette:"Nom :",
             nom: "nom",
+            valeur: "",
+            type: "text",
+        },
+        { 
+            etiquette:"Prénom :",
+            nom: "prenom",
             valeur: "",
             type: "text",
         },
@@ -49,9 +55,6 @@ export default class Information{
      */
     rendu(){
         let chaineHTML = `<legend>Informations personnelles</legend>`;
-        //chaineHTML += `<p><label for="nom">Nom :</label><input type="text" name="nom"></p>`;
-        //chaineHTML += `<p><label for="courriel">Courriel :</label><input type="email" name="courriel"></p>`;
-        //chaineHTML += `<p><label for="nbCours">Nombre de cours :</label><input type="number" name="nbCours"></p>`;
         this.data.forEach((element)=>{
             console.log(element)
             chaineHTML += ` <p>

@@ -30,6 +30,10 @@ export default class Maire {
       * @returns {UnMaire[]} - Tableau des résultats;
      */
     rechercheMaires(params){
+        // Pour chaque
+        // Si x == y
+        // push dans le tableau de résultat
+        // Retourne le tableau de résultat...
     }
 
     /**
@@ -40,14 +44,27 @@ export default class Maire {
      * @returns {UnMaire[]} - Tableau des résultats
      */
     listeMaires(params) {
-        
+        if(params.type === "nom"){
+            this.#aMaires.sort(function(a, b){
+                return a.nom.localeCompare(b.nom, "fr");
+            });
+            /*this.#aMaires.sort((a, b) => {
+                return a.nom.localeCompare(b.nom, "fr");
+            });*/
+            //this.#aMaires.sort((a, b) => a.nom.localeCompare(b.nom, "fr"));
+        }
+        console.log(this.#aMaires[0]);
+        if(params.ordre === "DESC"){
+            this.#aMaires.reverse();
+        }
+        return this.#aMaires;
     }
 
     /**
      * @returns {Number} - Le nombre d'enregistrement dans le tableau des maires
      */
     getNombreMaires(){
-        
+        return this.#aMaires.length;
     }
     
   }

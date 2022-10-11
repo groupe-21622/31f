@@ -6,17 +6,22 @@ export default class Inscription{
      */
     #aData;
 
+    #bActif;
+
     /**
      * Constructeur de la classe, fait la configuration de base du composant
      * @param {HTMLElement} domParent 
      * @param {Cours[]} data
+     * @parem {boolean} bRendu - Dessiner ou pas le composant lors de l'instanciation
      */
-     constructor(domParent, data){
+     constructor(domParent, data, bActif){
         this.domParent = domParent;
         this.#aData = data;
         console.log("Inscription");
-        
-        this.rendu();   // Appel la méthode d'affichage du composant
+        this.#bActif = bActif;
+        if(bActif){
+            this.rendu();   // Appel la méthode d'affichage du composant
+        }
     }
     /**
      * Permet de valider les données du composant
@@ -26,6 +31,17 @@ export default class Inscription{
     estValide(){
         return true;
     }
+
+    setActif(bActif){
+        this.#bActif = bActif;
+        if(bActif){
+            this.rendu();
+        }
+        else{
+            this.domParent.innerHTML = "";
+        }
+    }
+
     /**
      * Méthode qui affiche le composant dans son parent. 
      */

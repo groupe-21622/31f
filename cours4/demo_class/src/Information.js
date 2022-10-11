@@ -32,15 +32,22 @@ export default class Information{
         }
 
     ];
+
+    #bActif;
+
     /**
      * Constructeur de la classe, fait la configuration de base du composant
      * @param {HTMLElement} domParent 
+     * @param {Cours[]} data
+     * @parem {boolean} bRendu - Dessiner ou pas le composant lors de l'instanciation
      */
-    constructor(domParent){
+    constructor(domParent, data, bActif){
         this.domParent = domParent;
         console.log("Information");
-        
-        this.rendu();   // Appel la méthode d'affichage du composant
+        this.#bActif = bActif;
+        if(bActif){
+            this.rendu();   // Appel la méthode d'affichage du composant
+        }
     }
     /**
      * Permet de valider les données du composant
@@ -50,13 +57,24 @@ export default class Information{
     estValide(){
         return true;
     }
+
+    setActif(bActif){
+        this.#bActif = bActif;
+        if(bActif){
+            this.rendu();
+        }
+        else{
+            this.domParent.innerHTML = "";
+        }
+    }
+
     /**
      * Méthode qui affiche le composant dans son parent. 
      */
     rendu(){
         let chaineHTML = `<legend>Informations personnelles</legend>`;
         this.data.forEach((element)=>{
-            console.log(element)
+            //console.log(element)
             chaineHTML += ` <p>
                                 <label for="${element.nom}">${element.etiquette}</label>
                                 <input type="${element.type}" value="${element.valeur}" name="${element.nom}">

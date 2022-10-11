@@ -1,14 +1,15 @@
-export const mairesMTL = [{
-        "nom": "Plante",
-        "prenom": "Valérie",
-        "debut": 2017,
-        "fin": null
-    },
+export const mairesMTL = [
     {
         "nom": "Coderre",
         "prenom": "Denis",
         "debut": 2013,
         "fin": 2017
+    },
+    {
+        "nom": "Plante",
+        "prenom": "Valérie",
+        "debut": 2017,
+        "fin": null
     },
     {
         "nom": "Blanchard",

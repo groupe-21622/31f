@@ -13,8 +13,8 @@ export default class App {
     constructor(titre) {
         // Récupère la section "information" comme point d'attache du composant
         let sectionInformation = document.querySelector(".information");
-        let sectionInformation2 = document.querySelector(".information2");
         let sectionInscription = document.querySelector(".inscription");
+        let sectionHoraire = document.querySelector(".horaire");
 
         let btnSuivant = document.querySelector(".suivant");
         btnSuivant.addEventListener("click", this.changementComposant.bind(this));
@@ -24,8 +24,9 @@ export default class App {
         // Instancie la classe Information en lui passant son "parent"
         const oInformation = new Information(sectionInformation, null, true);
         const oInscription = new Inscription(sectionInscription, cours, false);
+        const oHoraire = new Horaire(sectionHoraire, cours, false);
 
-        this.#aSequence = [oInformation, oInscription];
+        this.#aSequence = [oInformation, oInscription, oHoraire];
     }
 
     changementComposant() {

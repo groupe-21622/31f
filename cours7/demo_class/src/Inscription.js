@@ -7,6 +7,7 @@ export default class Inscription{
     #aData;
     #nbCours;
     #bActif;
+    #aChoixCours = [];
 
     /**
      * Constructeur de la classe, fait la configuration de base du composant
@@ -29,9 +30,11 @@ export default class Inscription{
      * @todo - A faire.
      */
     estValide(){
-        let choix = document.querySelectorAll("option:checked");
-        console.log(choix);
-        return (choix.length == this.#nbCours);
+        this.sauvegarderValeur();
+        //let choix = document.querySelectorAll("option:checked");
+        //console.log(choix);
+        
+        return (this.#aChoixCours.length == this.#nbCours);
         
     }
     setData(donnees){
@@ -41,6 +44,17 @@ export default class Inscription{
 
         console.log(this.#nbCours);
 
+    }
+    sauvegarderValeur (){
+        let choix = document.querySelectorAll("option:checked");
+        this.#aChoixCours = [];
+        for(let unChoix of choix){
+            this.#aChoixCours.push(unChoix.value);
+        }
+        //console.log(this.#aChoixCours)
+    }
+    getData(){
+        return this.#aChoixCours;
     }
     setActif(bActif){
         this.#bActif = bActif;
@@ -57,7 +71,7 @@ export default class Inscription{
      */
     rendu(){
         let chaineHTML = `<legend>Inscription</legend>`;
-        chaineHTML += ` <p><label for="nbCours">Cours:</label>
+        chaineHTML += ` <p><label for="nbCours">Vous devez choisir ${this.#nbCours} cours : </label>
                             <div class="selectCours">
                                 <select multiple>`;
         this.#aData.forEach(function(unCours){
@@ -67,5 +81,6 @@ export default class Inscription{
         chaineHTML +=   `</select></div></p>`;
 
         this.domParent.innerHTML = chaineHTML;
+        
     }
 }

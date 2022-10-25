@@ -6,7 +6,8 @@ export default class Horaire{
      */
     #aData;
     #bActif;
-    
+    #aChoixCours;
+    #monHoraire;
     /**
      * Constructeur de la classe, fait la configuration de base du composant
      * @param {HTMLElement} domParent 
@@ -28,21 +29,43 @@ export default class Horaire{
      * @todo - A faire.
      */
     estValide(){
+        //const aRes = []
+        let res = true;
         this.sauvegarderValeur();
-        return true;
+        for(let sigle in this.#monHoraire){
+            if(this.#monHoraire[sigle].length < 1){
+                res = false;
+            }
+            //aRes.push(this.#monHoraire[sigle].length >= 1);
+        }
+        //aRes = [true, false, true, true];
+        //return aRes.every((res)=>{return res});
+        return res;
         
     }
 
     setData(donnees){
-       
+       this.#aChoixCours = donnees;
 
     }
     sauvegarderValeur (){
-        
+        const valeur = {};
+        /**
+         * valeur.582-31F = [choix, choix, choix]
+         */
+        this.#aChoixCours.forEach((sigle)=>{
+           let mesChoix = document.querySelectorAll(`[data-sigle='${sigle}']:checked`);
+           valeur[sigle] = [];
+           mesChoix.forEach((unChoix)=>{
+            valeur[sigle].push(unChoix.value);
+           })
+        })
+        console.log(valeur)
+        this.#monHoraire = valeur;
     }
 
     getData(){
-       
+       return this.#monHoraire;
     }
     setActif(bActif){
         this.#bActif = bActif;
@@ -60,10 +83,13 @@ export default class Horaire{
     rendu(){
         let chaineHTML = `<legend>Horaire</legend>`;
         this.#aData.forEach((unCours)=>{
-            chaineHTML += `<p>${unCours.nom}</p>`;
-            unCours.horaire.forEach((sHeure)=>{
-                chaineHTML += `<p>Ceci devrait être un checkbox pour : ${sHeure}`;
-            })
+            if(this.#aChoixCours.includes(unCours.sigle)){
+                chaineHTML += `<p>${unCours.nom}</p>`;
+                unCours.horaire.forEach((sHeure)=>{
+                    chaineHTML += `<p><input type="checkbox" data-sigle='${unCours.sigle}' name="horaire[${unCours.sigle}][]" value="${sHeure}">${sHeure}</p>`;
+                })
+            }
+
         })
 
 

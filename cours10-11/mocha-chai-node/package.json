@@ -1,0 +1,18 @@
+{
+  "name": "mocha-chai-node",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "npm run test:base",
+    "test:base" : "mocha ./test/base.test.mjs -R nyan"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "chai": "^4.3.6"
+  }
+}

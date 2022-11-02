@@ -30,6 +30,7 @@ export default class Maire {
      */
     rechercheMaires(params){
         let resultats;
+        
         if(params.type == "nom" && params.valeur != ""){
             let regexp = new RegExp(params.valeur, "i");
             resultats = this.#aMaires.filter((element)=>{
@@ -37,6 +38,7 @@ export default class Maire {
                 //return (element.nom == params.valeur || element.prenom == params.valeur);
             })
         }
+
         if(params.type == "date" && params.valeur != ""){
             resultats = this.#aMaires.filter((element)=>{
                 return (element.debut <= params.valeur && (element.fin >= params.valeur || element.fin === null ));

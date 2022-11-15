@@ -61,6 +61,7 @@
         if(!hash.includes("#!/")){
             hash = "#!/";
         }
+
         history.pushState({}, "", hash);
         this.changerRoute(hash);
         

@@ -9,6 +9,7 @@ export default class App {
     constructor(){
         this.#routeur = new Routeur();
         this.#routeur.ajouterRoute("films", this.getFilms.bind(this));
+        this.#routeur.ajouterRoute("films", this.getFilmsAsync.bind(this));
         this.#routeur.ajouterRoute("personnage", this.getPersonnage.bind(this));
         this.#routeur.ajouterRoute("emplacement", this.getEmplacement.bind(this));
         this.#routeur.ajouterRoute("espece", this.getEspece.bind(this));
@@ -23,15 +24,52 @@ export default class App {
         console.log("films");
         const oGhibli = new Ghibli();
         oGhibli.getRessources("films", (data)=>{
-            data.forEach(element=>{
-                //console.log(data);
-                // Faire quelque chose...
+            data.forEach(unFilm=>{
+                unFilm.perso = [];
+                if(unFilm.people.length > 1){
+                    let aPromesses = [];
+                    for(let unPerso of unFilm.people){
+                        console.log (unPerso);
+                        aPromesses.push(fetch(unPerso));
+                    }
+                    Promise.all(aPromesses).then((aData)=>{
+                        console.log(aData)
+                        return Promise.all(aData.map((unElement)=>{
+                            return unElement.json();
+                        }))
+                        console.log(aData)
+                    }).then(aData=>{
+                        unFilm.perso = aData;
+                        console.log(unFilm.perso)
+                        let domPerso = this.renderDomPerso(unFilm.perso);
+                        document.querySelector(`[data-id="${unFilm.id}"] .personnage`).innerHTML = domPerso;
+                        //this.afficherFilms(data);
+                    });
+                    
+                }
+                //console.log(unFilm.people)
             })
+            
             this.afficherFilms(data);
 
         });
-        
-      
+    }
+
+    async getFilmsAsync(){
+        const oGhibli = new Ghibli();
+        let films = await oGhibli.getRessourcesAsync("films");
+        for(let unFilm of films){
+            unFilm.perso = [];
+            if(unFilm.people.length > 1){
+                for(let unPerso of unFilm.people){
+                    console.log (unPerso);
+                    let unElement = await fetch(unPerso);
+                    let dataElement = await unElement.json();
+                    unFilm.perso.push(dataElement);
+                }
+            }
+        }
+        this.afficherFilms(films);
     }
     
     getPersonnage(){
@@ -58,11 +96,24 @@ export default class App {
         console.log("Vehicule")
     }
 
+    renderDomPerso(aPerso){
+        let chainePerso = aPerso.map(unPerso=>{
+                return `<p>${unPerso.name}</p>`;
+            });
+        return chainePerso.join("");
+    }
 
     afficherFilms(aFilms){
         let chaineHtml = "";
         aFilms.forEach(unFilm=> {
-            chaineHtml += `<article class="carte">
+            console.log(unFilm.perso)
+            let chainePerso = unFilm.perso.map(unPerso=>{
+                return `<p>${unPerso.name}</p>`;
+            });
+            chainePerso = chainePerso.join("");
+            //console.log(chainePerso);
+
+            chaineHtml += `<article data-id=${unFilm.id} class="carte">
                                 <header>
                                     <h2>${unFilm.title} (${unFilm.release_date})</h2>
                                     <h3>${unFilm.original_title}</h3>
@@ -70,6 +121,7 @@ export default class App {
                                 <img src="${unFilm.image}">
                                 <div class="contenu">
                                     <p>${unFilm.description}</p>
+                                    <p class="personnage">${chainePerso}</p>
                                 </div>
                                 <footer class="action">x, y z</footer>
                             </article>`;

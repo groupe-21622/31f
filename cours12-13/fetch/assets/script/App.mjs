@@ -8,7 +8,7 @@ export default class App {
 
     constructor(){
         this.#routeur = new Routeur();
-        this.#routeur.ajouterRoute("films", this.getFilms.bind(this));
+        //this.#routeur.ajouterRoute("films", this.getFilms.bind(this));
         this.#routeur.ajouterRoute("films", this.getFilmsAsync.bind(this));
         this.#routeur.ajouterRoute("personnage", this.getPersonnage.bind(this));
         this.#routeur.ajouterRoute("emplacement", this.getEmplacement.bind(this));
@@ -21,6 +21,7 @@ export default class App {
     }
 
     getFilms(){
+        console.time("films")
         console.log("films");
         const oGhibli = new Ghibli();
         oGhibli.getRessources("films", (data)=>{
@@ -51,13 +52,17 @@ export default class App {
             })
             
             this.afficherFilms(data);
-
+            console.timeEnd("films")
         });
     }
 
     async getFilmsAsync(){
+        console.time("films");
         const oGhibli = new Ghibli();
         let films = await oGhibli.getRessourcesAsync("films");
+        this.afficherFilms(films);
+        console.timeEnd("films");
+        console.time("films2");
         for(let unFilm of films){
             unFilm.perso = [];
             if(unFilm.people.length > 1){
@@ -67,9 +72,13 @@ export default class App {
                     let dataElement = await unElement.json();
                     unFilm.perso.push(dataElement);
                 }
+                let domPerso = this.renderDomPerso(unFilm.perso);
+                document.querySelector(`[data-id="${unFilm.id}"] .personnage`).innerHTML = domPerso;
             }
+            
         }
-        this.afficherFilms(films);
+        console.timeEnd("films2");
+        //this.afficherFilms(films);
     }
     
     getPersonnage(){
@@ -105,12 +114,13 @@ export default class App {
 
     afficherFilms(aFilms){
         let chaineHtml = "";
+        let chainePerso = [];
         aFilms.forEach(unFilm=> {
-            console.log(unFilm.perso)
-            let chainePerso = unFilm.perso.map(unPerso=>{
+            //console.log(unFilm.perso)
+            chainePerso = unFilm.perso?.map(unPerso=>{
                 return `<p>${unPerso.name}</p>`;
             });
-            chainePerso = chainePerso.join("");
+            chainePerso = chainePerso?.join("");
             //console.log(chainePerso);
 
             chaineHtml += `<article data-id=${unFilm.id} class="carte">

@@ -10,13 +10,12 @@
     #routes ={}
 
     /**
-     * À l'instanciation du routeur, ajoute les gestionnaires d'événement sur les href déjà présent dans le DOM. 
+     * 
      * 
      */
     constructor(){
-        window.addEventListener("popstate", this.dePopState.bind(this));
         
-        document.querySelectorAll('[href^="#!/"]').forEach((lien)=>{
+        /*document.querySelectorAll('[href^="#!/"]').forEach((lien)=>{
             lien.addEventListener("click", (evt)=>{
                 evt.preventDefault();
                 const monLien = evt.target;
@@ -24,7 +23,7 @@
                 history.pushState({}, "", hash);
                 this.changeRoute(hash);      
             })
-       })
+       })*/
     }
     
     ajouterRoute(route, fctRappel){
@@ -37,6 +36,17 @@
     }
 
     demarrer(){
+        window.addEventListener("popstate", this.dePopState.bind(this));
+        document.addEventListener("click", (evt)=>{
+            if(evt.target.tagName == "A" && evt.target.href.includes("#!/")){
+                evt.preventDefault();
+                const monLien = evt.target;
+                const hash = monLien.hash;
+                history.pushState({}, "", hash);
+                this.changeRoute(hash);      
+            }
+        })
+
         let hash = location.hash;
         if(!hash.includes("#!/")){
             hash = "#!/";
@@ -129,6 +139,10 @@
         
         console.log(route);
         console.log(this.dataRoute)
+        return this.dataRoute;
+    }
+
+    getInfoRoute(){
         return this.dataRoute;
     }
    

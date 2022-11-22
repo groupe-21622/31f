@@ -7,9 +7,32 @@ export default class App {
     #domParent;
 
     constructor(){
+        this.oGhibli = new Ghibli();
         
         this.#domParent = document.querySelector(".catalogue");
 
+        this.#routeur = new Routeur();
+        this.#routeur.ajouterRoute("films", this.routeFilm.bind(this));
+        this.#routeur.ajouterRoute("detail", this.routeDetail.bind(this));
+        this.#routeur.ajouterRoute("personnage", this.routePersonnage.bind(this));
+        this.#routeur.demarrer();
+    }
+
+    routeFilm(){
+        this.oGhibli.getRessources("films", (data)=>{
+            this.afficherFilms(data);        
+        })
+    }
+    
+    routeDetail(){
+        console.log("Les détails d'un film");
+        
+    }
+
+    routePersonnage(){
+        this.oGhibli.getRessources("people", (data)=>{
+            this.afficherPersonnage(data);        
+        })
     }
 
     getFilms(){

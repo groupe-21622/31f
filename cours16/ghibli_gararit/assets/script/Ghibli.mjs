@@ -1,5 +1,6 @@
 export default class Ghibli{
     URLGhibli = "https://ghibliapi.herokuapp.com/";
+    //URLGhibli = "http://127.0.0.1:5500/cours16/ghibli_gararit/assets/data/film.json";
 
     /**
      * 

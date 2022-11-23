@@ -27,6 +27,7 @@
     </header> 
     <main>
         <section class="catalogue">
+            
             <article class="carte">
                 <header>
                     <h2>Titre du produit</h2>
@@ -39,5 +40,17 @@
             </article>
         </section>
     </main>
+
+    <script type="tmpl" data-nom-tmpl="tmpl-carte-film" id="tmpl-carte-film">
+        <article data-id="{{ id }}" class="carte">
+            Il y a {{nbPersonne}} personne(s) dans ce film
+            <h2><a href="#!/detail/{{id}}">  {{ title }} ({{release_date}})</a></h2>
+            <h3>{{original_title}}</h3>
+            <div class="contenu">
+                <p>{{description}}</p>
+            </div>              
+        </article>
+    </script>
+
 </body>
 </html>

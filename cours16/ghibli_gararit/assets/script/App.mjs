@@ -1,3 +1,4 @@
+import Affichage from "./Affichage.mjs";
 import Ghibli from "./Ghibli.mjs";
 import Routeur from "./Routeur.mjs";
 
@@ -25,6 +26,14 @@ export default class App {
 
     routeFilm(){
         this.oGhibli.getRessources("films", (data)=>{
+            
+            data = data.map(unFilm=>{
+                unFilm.nbPersonne = unFilm.people.length;
+                return unFilm
+            })
+            console.log(data)
+
+
             let infoRoute = this.#routeur.getInfoRoute();
             console.log(infoRoute.parametre)
             if(infoRoute.parametre["filtre"]){
@@ -67,7 +76,7 @@ export default class App {
 
         })
     }
-    
+
     /**
      * @todo Récupérer les détails d'un film
      */
@@ -85,40 +94,25 @@ export default class App {
         })
     }
 
-    getFilms(){
-
-
-        console.time("films")
-        console.log("films");
-        const oGhibli = new Ghibli();
-        oGhibli.getRessources("films", (data)=>{
-            this.afficherFilms(data);
-                
-            })
-    }
-
-    
 
     afficherFilms(aFilms){
+        let gabaritFilm = document.querySelector("#tmpl-carte-film");
+
         let chaineHtml = "";
         let chainePerso = [];
-        aFilms.forEach(unFilm=> {
-           
+        Affichage.afficher(aFilms, gabaritFilm, this.#domParent);
 
-            chaineHtml += `<article data-id=${unFilm.id} class="carte">
-                                
-                                
-                                    <h2><a href="#!/detail/${unFilm.id}">  ${unFilm.title} (${unFilm.release_date})</a></h2>
-                                    <h3>${unFilm.original_title}</h3>
-                                
-                                
-                                <div class="contenu">
-                                    <p>${unFilm.description}</p>
-                                </div>
-                                
-                            </article>`;
+        /*aFilms.forEach(unFilm=> {
+            chaineHtml += Affichage.afficher(unFilm, gabaritFilm);
 
         });
         this.#domParent.innerHTML = chaineHtml;
+        */
+        this.attacherEvenement();
+    }
+
+    attacherEvenement(){
+        //mettre les addEventListener des éléments générés dynamiquement...
+
     }
 }
